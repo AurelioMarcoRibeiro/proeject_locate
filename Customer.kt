@@ -2,40 +2,41 @@ package reorganize
 
 import java.util.*
 
-data class Customer(val name: String, val cpf: String)
+data class Customer(val name: String, val cpf: String, val address: Address) {
+    companion object {
+        fun create(scanner: Scanner): Customer {
+            println("Cadastro de Clientes.")
+            println("Digite os dados do cliente.:")
 
-fun registerClient(scanner: Scanner, clients: MutableList<Customer>, adress: MutableList<Adress>) {
-    println("Cadastro de Clientes.")
-    println("Digite os dados do cliente.:")
+            println("Nome:")
+            val name = scanner.nextLine()
 
-    println("Nome:")
-    val name = scanner.nextLine()
+            println("CPF:")
+            var cpf = scanner.nextLine()
 
-    println("CPF:")
-    var cpf = scanner.nextLine()
+            while (cpf.length != 11) {
+                println("CPF inválido. Deve conter 11 dígitos.")
+                println("CPF:")
+                cpf = scanner.nextLine()
+            }
 
-    while (cpf.length != 11) {
-        println("CPF inválido. Deve conter 11 dígitos.")
-        println("CPF:")
-        cpf = scanner.nextLine()   }
+            println("Digite o endereço do cliente:")
 
-        println("Digite o endereço do cliente:")
+            println("Bairro:")
+            val neighborhood = scanner.nextLine()
 
-        println("Bairro:")
-        val neighborhood = scanner.nextLine()
+            println("Rua:")
+            val street = scanner.nextLine()
 
-        println("Rua:")
-        val street = scanner.nextLine()
+            println("Número:")
+            val number = scanner.nextInt()
+            scanner.nextLine()
 
-        println("Número:")
-        val number = scanner.nextInt()
-        scanner.nextLine()
+            val address = Address(neighborhood, street, number)
 
-        val dataAdress = Adress(neighborhood, street, number)
-        adress.add(dataAdress)
+            println("Dados do cliente cadastrados com sucesso!")
 
-        println("Dados do cliente cadastrados com sucesso!")
-
-        val dataClients = Customer(name, cpf)
-        clients.add(dataClients)
+            return Customer(name, cpf, address)
+        }
     }
+}
