@@ -2,13 +2,13 @@ package reorganize
 
 import java.util.*
 
-data class AvailableMovies(val name: String, val year: Int, val price: Double) {
+data class AvailableMovie(val name: String, val year: Int, val price: Double) {
     override fun toString(): String {
         return "Nome: $name, Ano: $year, Preço: R$%.2f".format(price)
     }
 }
 
-fun listMovies(movies: List<AvailableMovies>, cust: List<MovieInfo>) {
+fun listMovies(movies: List<AvailableMovie>, cust: List<Movie>) {
 
     if (movies.isEmpty()) {
         println("Não há filmes disponíveis. Pressione enter para voltar ao menu principal.")
@@ -22,7 +22,7 @@ fun listMovies(movies: List<AvailableMovies>, cust: List<MovieInfo>) {
     }
 }
 
-fun registerMovie(scanner: Scanner, movies: MutableList<AvailableMovies>, cust: MutableList<MovieInfo>) {
+fun registerMovie(scanner: Scanner, movies: MutableList<AvailableMovie>, cust: MutableList<Movie>) {
     println("Cadastro de Filmes.")
 
     println("Digite o nome do filme:")
@@ -32,17 +32,17 @@ fun registerMovie(scanner: Scanner, movies: MutableList<AvailableMovies>, cust: 
     val year = scanner.nextInt()
     scanner.nextLine()
 
-    val featuresMovie = AvailableMovies(name, year, price = moviePriceCalculation(year, movies))
+    val featuresMovie = AvailableMovie(name, year, price = moviePriceCalculation(year, movies))
     movies.add(featuresMovie)
 
-    val movieInformation = MovieInfo(movie = featuresMovie)
+    val movieInformation = Movie(movie = featuresMovie)
     cust.add(movieInformation)
 
     println("Filme cadastrado com sucesso!")
 
     listMovies(movies, cust)
 }
-fun moviePriceCalculation(year: Int, movies: MutableList<AvailableMovies>): Double {
+fun moviePriceCalculation(year: Int, movies: MutableList<AvailableMovie>): Double {
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
     val yearsToCurrentYear = currentYear - year
 

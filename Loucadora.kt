@@ -4,19 +4,13 @@ import java.util.*
 
 class Loucadora {
 
-    fun returnLocator(movie: MovieInfo) {
-        movie.rented = false
-        movie.rentedBy = ""
-    }
-
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
             val scanner = Scanner(System.`in`)
-            val movies = mutableListOf<AvailableMovies>()
-            val clients = mutableListOf<Customer>()
-            val adress = mutableListOf<Adress>()
-            val rented = mutableListOf<MovieInfo>()
+            val movies = mutableListOf<AvailableMovie>()
+            val customers = mutableListOf<Customer>()
+            val rentedMovies = mutableListOf<Movie>()
 
             var menu = true
             println("Bem-vindo(a) à Locadora!")
@@ -33,14 +27,14 @@ class Loucadora {
                 when (option) {
                     "1" -> {
                         do {
-                            rentMovie(scanner, movies, clients, rented)
+                            rentMovie(scanner, movies, customers, rentedMovies)
                             val answer = scanner.nextLine()
                         } while (answer.equals("S", ignoreCase = true))
                     }
 
                     "2" -> {
                         do {
-                            registerMovie(scanner, movies, rented)
+                            registerMovie(scanner, movies, rentedMovies)
                             println("Deseja cadastrar outro filme? S/N")
                             val answer = scanner.nextLine()
                         } while (answer.equals("S", ignoreCase = true))
@@ -48,14 +42,27 @@ class Loucadora {
 
                     "3" -> {
                         do {
-                            registerClient(scanner, clients, adress)
+                            val customer = Customer.create(scanner)
+                            customers.add(customer)
                             println("Deseja cadastrar mais clientes? S/N")
                             val answer = scanner.nextLine()
                         } while (answer.equals("S", ignoreCase = true))
                     }
 
                     "4" -> {
-                        returnMovie(scanner, movies, clients, rented)
+
+                        println("Devolução de Filme.")
+
+                        println("Digite o CPF do cliente:")
+                        val clientCPF = scanner.nextLine()
+
+                        val clientFound = customers.find { it.cpf == clientCPF }
+                        if (clientFound == null) {
+                            println("Cliente com CPF '$clientCPF' não encontrado.")
+                        }else{
+                            val rentedMoviesByCustomer = Movie.findMoviesByCustomer(clientFound, rentedMovies)
+                            Movie.returnMovie(scanner, rentedMoviesByCustomer)
+                        }
                     }
 
                     "5" -> {

@@ -4,15 +4,15 @@ import java.time.LocalDate
 import java.util.*
 import java.time.format.DateTimeFormatter
 
-fun callRentedMovies(movie: MovieInfo, client: String, movieData: AvailableMovies) {
+fun callRentedMovies(movie: Movie, client: String, movieData: AvailableMovie) {
     movie.rented = true
     movie.rentedBy = client
     movie.rentalDate = LocalDate.now()
     movie.movie = movieData
 }
 
-fun rentMovie(scanner: Scanner, movies: MutableList<AvailableMovies>, clients: MutableList<Customer>,
-              cust: MutableList<MovieInfo>) {
+fun rentMovie(scanner: Scanner, movies: MutableList<AvailableMovie>, clients: MutableList<Customer>,
+              cust: MutableList<Movie>) {
 
     if (clients.isEmpty()) {
         println("Não existem clientes cadastrados. Cadastre um antes de alugar um filme. Pressione enter para voltar ao menu principal.")
